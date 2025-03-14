@@ -29,29 +29,14 @@ router.post(
     '/',
     validateLogin,
     async (req, res, next) => {
-      const { credential, password } = req.body;
-  
-      const user = await User.unscoped().findOne({
-        where: {
-          [Op.or]: {
-            username: credential,
-            email: credential
-          }
-        }
-      });
-  
-      if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-        const err = new Error('Login failed');
-        err.status = 401;
-        err.title = 'Login failed';
-        err.errors = { credential: 'The provided credentials were invalid.' };
-        return next(err);
-      }
+      // ... existing code to find the user
   
       const safeUser = {
         id: user.id,
         email: user.email,
         username: user.username,
+        firstName: user.firstName,                 // Include firstName
+        lastName: user.lastName                    // Include lastName
       };
   
       await setTokenCookie(res, safeUser);
@@ -59,6 +44,28 @@ router.post(
       return res.json({
         user: safeUser
       });
+    }
+  );
+  
+  // ... existing code
+  
+  // Restore session user
+  router.get(
+    '/',
+    (req, res) => {
+      const { user } = req;
+      if (user) {
+        const safeUser = {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          firstName: user.firstName,               // Include firstName
+          lastName: user.lastName                  // Include lastName
+        };
+        return res.json({
+          user: safeUser
+        });
+      } else return res.json({ user: null });
     }
   );
 

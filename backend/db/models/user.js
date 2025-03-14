@@ -40,13 +40,21 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60],
         },
       },
+      firstName: {                             // Add firstName attribute
+        type: DataTypes.STRING,
+        allowNull: true,                      // Optional field
+      },
+      lastName: {                              // Add lastName attribute
+        type: DataTypes.STRING,
+        allowNull: true,                      // Optional field
+      },
     },
     {
       sequelize,
       modelName: 'User',
       defaultScope: {
         attributes: {
-          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
+          exclude: ['hashedPassword', 'createdAt', 'updatedAt'],   // Exclude sensitive fields
         },
       },
     }

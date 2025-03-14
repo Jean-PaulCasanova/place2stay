@@ -12,12 +12,9 @@ const setTokenCookie = (res, user) => {
       id: user.id,
       email: user.email,
       username: user.username,
+      firstName: user.firstName,                   // Include firstName in token
+      lastName: user.lastName                      // Include lastName in token
     };
-    const token = jwt.sign(
-      { data: safeUser },
-      secret,
-      { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
-    );
   
     const isProduction = process.env.NODE_ENV === "production";
   
