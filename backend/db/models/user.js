@@ -5,7 +5,26 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      // User has many Spots through ownerId with cascade delete
+      User.hasMany(models.Spot, { 
+        foreignKey: 'ownerId', 
+        onDelete: 'CASCADE',  // Cascade delete when user is deleted
+        onUpdate: 'CASCADE'   // Cascade update when user data is updated
+      });
+
+      // User has many Reviews through userId with cascade delete
+      User.hasMany(models.Review, { 
+        foreignKey: 'userId', 
+        onDelete: 'CASCADE',  // Cascade delete when user is deleted
+        onUpdate: 'CASCADE'   // Cascade update when user data is updated
+      });
+
+      // User has many Bookings through userId with cascade delete
+      User.hasMany(models.Booking, { 
+        foreignKey: 'userId', 
+        onDelete: 'CASCADE',  // Cascade delete when user is deleted
+        onUpdate: 'CASCADE'   // Cascade update when user data is updated
+      });
     }
   }
 
@@ -37,16 +56,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
-          len: [60, 60],
+          len: [60, 60], // Ensure hashed password length is exactly 60 characters
         },
       },
-      firstName: {                             // Add firstName attribute
+      firstName: {
         type: DataTypes.STRING,
-        allowNull: true,                      // Optional field
+        allowNull: true, // Optional field
       },
-      lastName: {                              // Add lastName attribute
+      lastName: {
         type: DataTypes.STRING,
-        allowNull: true,                      // Optional field
+        allowNull: true, // Optional field
       },
     },
     {
@@ -54,10 +73,11 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'User',
       defaultScope: {
         attributes: {
-          exclude: ['hashedPassword', 'createdAt', 'updatedAt'],   // Exclude sensitive fields
+          exclude: ['hashedPassword', 'createdAt', 'updatedAt'], // Exclude sensitive fields from query results
         },
       },
     }
   );
+
   return User;
 };
