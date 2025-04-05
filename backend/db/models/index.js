@@ -1,17 +1,4 @@
 'use strict';
-const User = require('./user');
-const Spot = require('./spot');
-const SpotImage = require('./spotimage');
-const Review = require('./review.js');
-const Booking = require('./booking.js');
-
-const models = {
-  User,
-  Spot,
-  SpotImage,
-  Review,
-  Booking,
-};
 
 const fs = require('fs');
 const path = require('path');
