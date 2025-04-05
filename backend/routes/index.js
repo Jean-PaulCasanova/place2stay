@@ -4,8 +4,10 @@ const router = express.Router();
 // Import the API router
 const apiRouter = require('./api');
 
+// import spots router
+const spotsRouter = require('./api/spots')
 
-
+// CSRF Token Route
 router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
     res.cookie("XSRF-TOKEN", csrfToken);
@@ -22,5 +24,11 @@ router.get("/api/csrf/restore", (req, res) => {
 // Connect it to `/api`
 router.use('/api', apiRouter);
 
+// 404 Route Handler (Catch-all for undefined routes)
+router.use((req, res, next) => {
+    const err = new Error("Route not found");
+    err.status = 404;
+    next(err);
+});
 
 module.exports = router;
