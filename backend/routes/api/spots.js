@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, SpotImage, User, Review, Booking } = require('../../db/models');
+const { Booking, Spot, SpotImage, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { Op } = require('sequelize');
@@ -101,6 +101,31 @@ router.get('/', validateQueryFilters, async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
+
+         // Validation Middleware for Bookings
+  const validateBooking = [
+    check('startDate')
+      .exists({ checkFalsy: true }).withMessage('Start date is required.')
+      .isISO8601().withMessage('Start date must be a valid date.')
+      .custom((value) => {
+        const today = new Date();
+        if (new Date(value) < today) {
+          throw new Error('Start date cannot be in the past.');
+        }
+        return true;
+      }),
+    check('endDate')
+      .exists({ checkFalsy: true }).withMessage('End date is required.')
+      .isISO8601().withMessage('End date must be a valid date.')
+      .custom((value, { req }) => {
+        if (new Date(value) <= new Date(req.body.startDate)) {
+          throw new Error('End date must be after start date.');
+        }
+        return true;
+      }),
+    handleValidationErrors
+  ];
+  
 
   // GET /api/spots/current - Get spots owned by current user
 router.get('/current', requireAuth, async (req, res) => {
@@ -370,6 +395,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
+
 
   // Export router
 module.exports = router;

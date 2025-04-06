@@ -1,46 +1,51 @@
 'use strict';
 const {
-  Model,
-  DataTypes
+  Model
 } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     static associate(models) {
-      // Booking belongs to User (The user who booked the spot)
-      Booking.belongsTo(models.User, { foreignKey: 'userId' });
+      // Booking belongs to User
+      Booking.belongsTo(models.User, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      });
 
-      // Booking belongs to Spot (The spot being booked)
-      Booking.belongsTo(models.Spot, { foreignKey: 'spotId' });
+      // Booking belongs to Spot
+      Booking.belongsTo(models.Spot, {
+        foreignKey: 'spotId',
+        onDelete: 'CASCADE'
+      });
     }
   }
 
   Booking.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isInt: {
-          msg: 'User ID must be an integer'
-        },
-      }
-    },
     spotId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isInt: {
-          msg: 'Spot ID must be an integer'
-        },
-      }
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
         isDate: {
-          msg: 'Start date must be a valid date'
+          msg: 'Start date must be a valid date.'
         },
+        isAfterToday(value) {
+          if (new Date(value) < new Date()) {
+            throw new Error('Start date cannot be in the past.');
+          }
+        },
+        isBeforeEndDate(value) {
+          if (this.endDate && new Date(value) >= new Date(this.endDate)) {
+            throw new Error('Start date must be before end date.');
+          }
+        }
       }
     },
     endDate: {
@@ -48,11 +53,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         isDate: {
-          msg: 'End date must be a valid date'
+          msg: 'End date must be a valid date.'
         },
-        isAfter(value) {
-          if (new Date(value) <= new Date(this.startDate)) {
-            throw new Error('End date must be after start date');
+        isAfterStartDate(value) {
+          if (this.startDate && new Date(value) <= new Date(this.startDate)) {
+            throw new Error('End date must be after start date.');
           }
         }
       }
