@@ -1,58 +1,58 @@
 'use strict';
-const {
-  Model,
-  DataTypes
-} = require('sequelize');
 
-module.exports = (sequelize) => {
+const { Model } = require('sequelize');
+
+module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
     static associate(models) {
-      // Review belongs to User (Author of the review)
+      // Review belongs to a User
       Review.belongsTo(models.User, { foreignKey: 'userId' });
 
-      // Review belongs to Spot (The spot being reviewed)
+      // Review belongs to a Spot
       Review.belongsTo(models.Spot, { foreignKey: 'spotId' });
+
+      // Review has many ReviewImages with cascade delete
+      Review.hasMany(models.ReviewImage, {
+        foreignKey: 'reviewId',
+        onDelete: 'CASCADE',
+        hooks: true
+      });
     }
   }
 
   Review.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isInt: {
-          msg: 'User ID must be an integer'
-        },
-      }
-    },
     spotId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isInt: {
-          msg: 'Spot ID must be an integer'
-        },
-      }
+      allowNull: false
     },
-    content: {
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    review: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'Review content cannot be empty'
+          msg: 'Review text cannot be empty'
         }
       }
     },
-    rating: {
+    stars: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         isInt: {
-          msg: 'Rating must be an integer'
+          msg: 'Stars must be an integer'
         },
-        min: 1,
-        max: 5,
-        msg: 'Rating must be between 1 and 5'
+        min: {
+          args: [1],
+          msg: 'Stars must be at least 1'
+        },
+        max: {
+          args: [5],
+          msg: 'Stars must be at most 5'
+        }
       }
     }
   }, {
