@@ -2,14 +2,10 @@
 const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
-<<<<<<< HEAD
 const spotsRouter = require('./spots.js')
-
-const bookingsRouter = require('./bookings');
-=======
-const spotsRouter = require('./spots.js');
 const reviewsRouter = require('./reviews.js');
->>>>>>> 001631d5e99e8b73a90b97add664cd2835643412
+const bookingsRouter = require('./bookings');
+
 const { restoreUser } = require("../../utils/auth.js");
 
 
@@ -25,11 +21,10 @@ router.use('/users', usersRouter);
 
 router.use('/spots', spotsRouter);
 
-<<<<<<< HEAD
-router.use('/bookings', bookingsRouter);
-=======
+
 router.use('/reviews', reviewsRouter);
->>>>>>> 001631d5e99e8b73a90b97add664cd2835643412
+
+router.use('/bookings', bookingsRouter);
 
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });
