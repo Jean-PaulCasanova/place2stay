@@ -215,4 +215,5 @@ const validateReview = [
   
     return res.status(201).json(newReview);
   });
-  
+
+  module.exports = router;
