@@ -208,7 +208,7 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res) 
     res.status(201).json(newBooking);
   });
 
-  
+  module.exports = router;
   
 // ------------------------------------------
 // DELETE /api/bookings/:

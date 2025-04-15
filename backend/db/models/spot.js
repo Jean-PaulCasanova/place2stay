@@ -69,26 +69,36 @@ module.exports = (sequelize) => {
     },
     lat: {
       type: DataTypes.DECIMAL,
-      allowNull: false, // Non-nullable
+      allowNull: false,
       validate: {
         isDecimal: {
           msg: 'Latitude must be a decimal number'
         },
-        min: -90,
-        max: 90,
-        msg: 'Latitude must be between -90 and 90'
+        min: {
+          args: -90,
+          msg: 'Latitude must be between -90 and 90'
+        },
+        max: {
+          args: 90,
+          msg: 'Latitude must be between -90 and 90'
+        }
       }
     },
     lng: {
       type: DataTypes.DECIMAL,
-      allowNull: false, // Non-nullable
+      allowNull: false,
       validate: {
         isDecimal: {
           msg: 'Longitude must be a decimal number'
         },
-        min: -180,
-        max: 180,
-        msg: 'Longitude must be between -180 and 180'
+        min: {
+          args: -180,
+          msg: 'Longitude must be between -180 and 180'
+        },
+        max: {
+          args: 180,
+          msg: 'Longitude must be between -180 and 180'
+        }
       }
     },
     name: {
@@ -112,16 +122,17 @@ module.exports = (sequelize) => {
     },
     price: {
       type: DataTypes.DECIMAL,
-      allowNull: false, // Non-nullable
+      allowNull: false,
       validate: {
         isDecimal: {
           msg: 'Price must be a decimal number'
         },
-        min: 0,
-        msg: 'Price must be a positive value'
+        min: {
+          args: 0,
+          msg: 'Price must be a positive value'
+        }
       }
-    }
-  }, {
+    }, 
     sequelize,
     modelName: 'Spot',
   });
