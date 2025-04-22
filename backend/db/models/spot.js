@@ -132,7 +132,8 @@ module.exports = (sequelize) => {
           msg: 'Price must be a positive value'
         }
       }
-    }, 
+    }
+    }, {
     sequelize,
     modelName: 'Spot',
   });
