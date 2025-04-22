@@ -396,6 +396,40 @@ router.delete('/:id', requireAuth, async (req, res) => {
     }
   });
 
+  // DELETE /api/spot-images/:imageId - Delete a spot image
+router.delete('/images/:imageId', requireAuth, async (req, res) => {
+  try {
+    const { imageId } = req.params;
+
+    // Find the SpotImage with its associated Spot
+    const image = await SpotImage.findByPk(imageId, {
+      include: {
+        model: Spot,
+        attributes: ['ownerId']  // Needed to verify ownership
+      }
+    });
+
+    // Step 5: Check if image exists
+    if (!image) {
+      return res.status(404).json({ message: "Spot image couldn't be found" });
+    }
+
+    // Step 6: Check if current user owns the spot
+    if (image.Spot.ownerId !== req.user.id) {
+      return res.status(403).json({ message: "Forbidden: You are not the owner of this spot" });
+    }
+
+    // Step 7: Delete the image
+    await image.destroy();
+
+    // Step 8: Return success message
+    return res.json({ message: 'Successfully deleted the image' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
   // Export router
 module.exports = router;

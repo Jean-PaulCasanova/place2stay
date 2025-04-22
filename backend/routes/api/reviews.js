@@ -215,5 +215,33 @@ const validateReview = [
   
     return res.status(201).json(newReview);
   });
+
+  // DELETE /api/review-images/:imageId - Delete a review image
+router.delete('/images/:imageId', requireAuth, async (req, res) => {
+  const { imageId } = req.params;
+
+  const image = await ReviewImage.findByPk(imageId, {
+    include: {
+      model: Review,
+      attributes: ['userId']
+    }
+  });
+
+  // Step 5: If image doesn't exist
+  if (!image) {
+    return res.status(404).json({ message: "Review image couldn't be found" });
+  }
+
+  // Step 6: Check ownership
+  if (image.Review.userId !== req.user.id) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+
+  // Step 7: Delete the image
+  await image.destroy();
+
+  // Step 8: Return success message
+  return res.json({ message: 'Successfully deleted' });
+});
   
   module.exports = router;
