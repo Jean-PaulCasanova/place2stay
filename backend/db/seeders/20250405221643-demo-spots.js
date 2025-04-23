@@ -1,7 +1,5 @@
 'use strict';
 
-const { Spot, User, SpotImage } = require('../models');
-
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
@@ -9,78 +7,106 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // 1. Find demo user
-    const demoUser = await User.findOne({ where: { username: 'Demo-lition' } });
-
-    // 2. Create sample spots
-    const spot1 = await Spot.create({
-      ownerId: demoUser.id,
-      address: '123 Market St',
-      city: 'San Francisco',
-      state: 'CA',
-      country: 'USA',
-      lat: 37.7749,
-      lng: -122.4194,
-      name: 'App Academy SF',
-      description: 'Learn to code in the heart of SF!',
-      price: 250
-    });
-
-    const spot2 = await Spot.create({
-      ownerId: demoUser.id,
-      address: '456 Sunset Blvd',
-      city: 'Los Angeles',
-      state: 'CA',
-      country: 'USA',
-      lat: 34.0522,
-      lng: -118.2437,
-      name: 'Sunny Retreat LA',
-      description: 'Enjoy the sunny vibes of LA!',
-      price: 180
-    });
-
-    const spot3 = await Spot.create({
-      ownerId: demoUser.id,
-      address: '789 Mountain View Rd',
-      city: 'Denver',
-      state: 'CO',
-      country: 'USA',
-      lat: 39.7392,
-      lng: -104.9903,
-      name: 'Mountain View',
-      description: 'Breathtaking views and fresh air.',
-      price: 200
-    });
-
-    // 3. Create sample spot images
-    await SpotImage.bulkCreate([
+    // Find demo user id from Users table
+    const demoUser = await queryInterface.sequelize.query(
+      `SELECT id FROM Users WHERE username = 'Demo-lition' LIMIT 1;`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    
+    const demoUserId = demoUser[0].id;
+    
+    // Create sample spots using bulkInsert
+    options.tableName = 'Spots';
+    await queryInterface.bulkInsert(options, [
       {
-        spotId: spot1.id,
+        ownerId: demoUserId,
+        address: '123 Market St',
+        city: 'San Francisco',
+        state: 'CA',
+        country: 'USA',
+        lat: 37.7749,
+        lng: -122.4194,
+        name: 'App Academy SF',
+        description: 'Learn to code in the heart of SF!',
+        price: 250,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '456 Sunset Blvd',
+        city: 'Los Angeles',
+        state: 'CA',
+        country: 'USA',
+        lat: 34.0522,
+        lng: -118.2437,
+        name: 'Sunny Retreat LA',
+        description: 'Enjoy the sunny vibes of LA!',
+        price: 180,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '789 Mountain View Rd',
+        city: 'Denver',
+        state: 'CO',
+        country: 'USA',
+        lat: 39.7392,
+        lng: -104.9903,
+        name: 'Mountain View',
+        description: 'Breathtaking views and fresh air.',
+        price: 200,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ]);
+    
+    // Get the inserted spot ids
+    const spots = await queryInterface.sequelize.query(
+      `SELECT id FROM Spots WHERE ownerId = ${demoUserId} ORDER BY id;`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    
+    // Create sample spot images
+    options.tableName = 'SpotImages';
+    await queryInterface.bulkInsert(options, [
+      {
+        spotId: spots[0].id,
         url: 'https://example.com/spot1-preview.jpg',
-        preview: true
+        preview: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        spotId: spot1.id,
+        spotId: spots[0].id,
         url: 'https://example.com/spot1-secondary.jpg',
-        preview: false
+        preview: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        spotId: spot2.id,
+        spotId: spots[1].id,
         url: 'https://example.com/spot2-preview.jpg',
-        preview: true
+        preview: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        spotId: spot3.id,
+        spotId: spots[2].id,
         url: 'https://example.com/spot3-preview.jpg',
-        preview: true
+        preview: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]);
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Spots';
-    await queryInterface.bulkDelete(options, null, {});
     options.tableName = 'SpotImages';
+    await queryInterface.bulkDelete(options, null, {});
+    
+    options.tableName = 'Spots';
     await queryInterface.bulkDelete(options, null, {});
   }
 };
