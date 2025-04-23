@@ -29,7 +29,15 @@ router.post(
     '/',
     validateLogin,
     async (req, res, next) => {
-      // ... existing code to find the user
+      // Find user by username or email
+    const user = await User.unscoped().findOne({
+      where: {
+        [Op.or]: {
+          username: credential,
+          email: credential
+        }
+      }
+    });
   
       const safeUser = {
         id: user.id,
