@@ -76,7 +76,13 @@ module.exports = {
     }, options);  // ✅ Don't forget to pass options here too
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Spots';  // ✅ add this so dropTable knows schema + table
-    await queryInterface.dropTable(options);
+    options.tableName = 'Bookings';
+    await queryInterface.dropTable(options);  // First drop Bookings (child)
+
+    options.tableName = 'SpotImages';
+    await queryInterface.dropTable(options);  // Then drop SpotImages (another child)
+
+    options.tableName = 'Spots';
+    await queryInterface.dropTable(options);  // Then drop Spots (parent)
   }
 };
