@@ -1,19 +1,23 @@
 'use strict';
 
 let options = {};
+let schema = '';
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
+  schema = `"${process.env.SCHEMA}".`; // note the dot
 }
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     // Find demo user id from Users table
     const demoUser = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'Demo-lition' LIMIT 1;`,
+      `SELECT id FROM ${schema}"Users" WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
     const demoUserId = demoUser[0].id;
+
+    // rest of your seeding logic
     
     // Create sample spots using bulkInsert
     options.tableName = 'Spots';
