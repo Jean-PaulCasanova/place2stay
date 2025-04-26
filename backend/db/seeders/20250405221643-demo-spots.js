@@ -68,7 +68,7 @@ module.exports = {
 
     // Get the inserted spot ids for creating SpotImages (use schema-aware table name)
     const spots = await queryInterface.sequelize.query(
-      `SELECT id FROM ${schema}"Spots" WHERE ownerId = ${demoUserId} ORDER BY id;`,
+      `SELECT id FROM ${schema}"Spots" WHERE "ownerId" = ${demoUserId} ORDER BY id;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
