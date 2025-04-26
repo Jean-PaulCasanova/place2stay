@@ -2,34 +2,39 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+  options.schema = process.env.SCHEMA;  // define your schema
 }
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn(
-      'Users',
+      { tableName: 'Users', schema: options.schema },
       'firstName',
       {
         type: Sequelize.STRING,
         allowNull: true
-      },
-      options
+      }
     );
-    
+
     await queryInterface.addColumn(
-      'Users',
+      { tableName: 'Users', schema: options.schema },
       'lastName',
       {
         type: Sequelize.STRING,
         allowNull: true
-      },
-      options
+      }
     );
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('Users', 'firstName', options);
-    await queryInterface.removeColumn('Users', 'lastName', options);
+    await queryInterface.removeColumn(
+      { tableName: 'Users', schema: options.schema },
+      'firstName'
+    );
+
+    await queryInterface.removeColumn(
+      { tableName: 'Users', schema: options.schema },
+      'lastName'
+    );
   }
 };
