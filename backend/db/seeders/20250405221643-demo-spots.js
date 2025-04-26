@@ -1,26 +1,26 @@
 'use strict';
 
 let options = {};
-let schema = '';
+// If in production, add schema to options
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
-  schema = `"${process.env.SCHEMA}".`; // note the dot
 }
+
+// Helper: if in production, set schema prefix (ex: "airbnb_schema".), otherwise empty
+const schema = process.env.SCHEMA ? `"${process.env.SCHEMA}".` : '';
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Find demo user id from Users table
+    // Find demo user id from Users table (use schema-aware table name)
     const demoUser = await queryInterface.sequelize.query(
       `SELECT id FROM ${schema}"Users" WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
     const demoUserId = demoUser[0].id;
-
-    // rest of your seeding logic
     
     // Create sample spots using bulkInsert
-    options.tableName = 'Spots';
+    options.tableName = 'Spots'; // Always set tableName for bulkInsert/bulkDelete
     await queryInterface.bulkInsert(options, [
       {
         ownerId: demoUserId,
@@ -65,10 +65,10 @@ module.exports = {
         updatedAt: new Date()
       }
     ]);
-    
-    // Get the inserted spot ids
+
+    // Get the inserted spot ids for creating SpotImages (use schema-aware table name)
     const spots = await queryInterface.sequelize.query(
-      `SELECT id FROM Spots WHERE ownerId = ${demoUserId} ORDER BY id;`,
+      `SELECT id FROM ${schema}"Spots" WHERE ownerId = ${demoUserId} ORDER BY id;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
@@ -107,6 +107,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    // Reverse order for safe deletes: delete SpotImages first, then Spots
     options.tableName = 'SpotImages';
     await queryInterface.bulkDelete(options, null, {});
     
