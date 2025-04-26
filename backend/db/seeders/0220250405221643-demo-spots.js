@@ -1,26 +1,26 @@
 'use strict';
 
 let options = {};
-// If in production, add schema to options
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;
+  options.schema = process.env.SCHEMA; // Set schema if in production
 }
+options.tableName = 'Spots'; // Always define the table at the top
 
-// Helper: if in production, set schema prefix (ex: "airbnb_schema".), otherwise empty
-const schema = process.env.SCHEMA ? `"${process.env.SCHEMA}".` : '';
-
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Find demo user id from Users table (use schema-aware table name)
+    // Find Demo-lition user (assuming they exist from demo-user seeder)
     const demoUser = await queryInterface.sequelize.query(
-      `SELECT id FROM ${schema}"Users" WHERE username = 'Demo-lition' LIMIT 1;`,
+      `SELECT id FROM "${options.schema ? options.schema + '"."' : ''}Users" WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
-    
-    const demoUserId = demoUser[0].id;
-    
-    // Create sample spots using bulkInsert
-    options.tableName = 'Spots'; // Always set tableName for bulkInsert/bulkDelete
+
+    const demoUserId = demoUser[0]?.id;
+    if (!demoUserId) {
+      throw new Error('Demo user not found, cannot seed Spots.');
+    }
+
+    // Insert demo spots
     await queryInterface.bulkInsert(options, [
       {
         ownerId: demoUserId,
@@ -61,45 +61,6 @@ module.exports = {
         name: 'Mountain View',
         description: 'Breathtaking views and fresh air.',
         price: 200,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ]);
-
-    // Get the inserted spot ids for creating SpotImages (use schema-aware table name)
-    const spots = await queryInterface.sequelize.query(
-      `SELECT id FROM ${schema}"Spots" WHERE "ownerId" = ${demoUserId} ORDER BY id;`,
-      { type: Sequelize.QueryTypes.SELECT }
-    );
-    
-    // Create sample spot images
-    options.tableName = 'SpotImages';
-    await queryInterface.bulkInsert(options, [
-      {
-        spotId: spots[0].id,
-        url: 'https://example.com/spot1-preview.jpg',
-        preview: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        spotId: spots[0].id,
-        url: 'https://example.com/spot1-secondary.jpg',
-        preview: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        spotId: spots[1].id,
-        url: 'https://example.com/spot2-preview.jpg',
-        preview: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        spotId: spots[2].id,
-        url: 'https://example.com/spot3-preview.jpg',
-        preview: true,
         createdAt: new Date(),
         updatedAt: new Date()
       }
