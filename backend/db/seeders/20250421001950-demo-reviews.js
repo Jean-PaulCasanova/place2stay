@@ -1,5 +1,7 @@
 'use strict';
 
+const { User, Spot, Review, ReviewImage } = require('../models');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA; // define schema in production
