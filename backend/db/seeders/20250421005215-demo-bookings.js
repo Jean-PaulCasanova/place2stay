@@ -95,6 +95,37 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     options.tableName = 'Bookings';
-    await queryInterface.bulkDelete(options, null, {});
+    
+    // Get the same user IDs we used in the up function
+    const schemaPrefix = process.env.NODE_ENV === 'production' ? `"${process.env.SCHEMA}".` : '';
+    
+    const demoUser = await queryInterface.sequelize.query(
+      `SELECT id FROM ${schemaPrefix}"Users" WHERE username = 'Demo-lition' LIMIT 1;`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    
+    const fakeUser1 = await queryInterface.sequelize.query(
+      `SELECT id FROM ${schemaPrefix}"Users" WHERE username = 'FakeUser1' LIMIT 1;`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    
+    const fakeUser2 = await queryInterface.sequelize.query(
+      `SELECT id FROM ${schemaPrefix}"Users" WHERE username = 'FakeUser2' LIMIT 1;`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    
+    // Only proceed if we found the users
+    if (demoUser.length && fakeUser1.length && fakeUser2.length) {
+      const demoUserId = demoUser[0].id;
+      const user1Id = fakeUser1[0].id;
+      const user2Id = fakeUser2[0].id;
+      
+      // Delete only bookings associated with our seeded users
+      await queryInterface.bulkDelete(options, {
+        userId: {
+          [Sequelize.Op.in]: [demoUserId, user1Id, user2Id]
+        }
+      }, {});
+    }
   }
-};
+}
