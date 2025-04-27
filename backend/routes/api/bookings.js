@@ -213,3 +213,4 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res) 
   
 // ------------------------------------------
 // DELETE /api/bookings/:
+// we need to work on routes
