@@ -7,29 +7,32 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Get user IDs
+    // Set schema prefix for SQL queries in production
+    const schemaPrefix = process.env.NODE_ENV === 'production' ? `"${process.env.SCHEMA}".` : '';
+    
+    // Get user IDs - now using schema prefix
     const demoUser = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'Demo-lition' LIMIT 1;`,
+      `SELECT id FROM ${schemaPrefix}"Users" WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
     const fakeUser1 = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'FakeUser1' LIMIT 1;`,
+      `SELECT id FROM ${schemaPrefix}"Users" WHERE username = 'FakeUser1' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
     const fakeUser2 = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'FakeUser2' LIMIT 1;`,
+      `SELECT id FROM ${schemaPrefix}"Users" WHERE username = 'FakeUser2' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
-    // Get spot IDs
+    // Get spot IDs - now using schema prefix
     const spots = await queryInterface.sequelize.query(
-      `SELECT id FROM Spots ORDER BY id LIMIT 3;`,
+      `SELECT id FROM ${schemaPrefix}"Spots" ORDER BY id LIMIT 3;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
-    // Check if we have enough spots and users
+    // Rest of the code remains the same
     if (spots.length < 3 || !demoUser.length || !fakeUser1.length || !fakeUser2.length) {
       console.error("Error: Missing required spots or users in database");
       return;
@@ -39,14 +42,12 @@ module.exports = {
     const user1Id = fakeUser1[0].id;
     const user2Id = fakeUser2[0].id;
     
-    // Helper function to calculate future dates
     const getFutureDate = (daysFromNow) => {
       const date = new Date();
       date.setDate(date.getDate() + daysFromNow);
       return date;
     };
     
-    // Create sample bookings
     options.tableName = 'Bookings';
     await queryInterface.bulkInsert(options, [
       {
