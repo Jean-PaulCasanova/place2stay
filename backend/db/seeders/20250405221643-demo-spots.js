@@ -68,11 +68,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    // Reverse order for safe deletes: delete SpotImages first, then Spots
-    options.tableName = 'SpotImages';
-    await queryInterface.bulkDelete(options, null, {});
-    
-    options.tableName = 'Spots';
+    options.tableName = 'Spots'; // now safe to delete Spots
     await queryInterface.bulkDelete(options, null, {});
   }
 };
