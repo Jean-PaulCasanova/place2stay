@@ -2,14 +2,18 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;
+  options.schema = process.env.SCHEMA;  // 'airbnb_schema'
 }
+
+const userTable = options.schema ? `"${options.schema}"."Users"` : '"Users"';
+const spotTable = options.schema ? `"${options.schema}"."Spots"` : '"Spots"';
+const reviewTable = options.schema ? `"${options.schema}"."Reviews"` : '"Reviews"';
+const reviewImagesTable = options.schema ? `"${options.schema}"."ReviewImages"` : '"ReviewImages"';
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Get user IDs
     const demoUser = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'Demo-lition' LIMIT 1;`,
+      `SELECT id FROM ${userTable} WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
     
