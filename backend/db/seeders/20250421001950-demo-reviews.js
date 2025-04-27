@@ -2,9 +2,10 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // 'airbnb_schema'
+  options.schema = process.env.SCHEMA; // schema will be something like 'airbnb_schema'
 }
 
+// Dynamically set table names
 const userTable = options.schema ? `"${options.schema}"."Users"` : '"Users"';
 const spotTable = options.schema ? `"${options.schema}"."Spots"` : '"Spots"';
 const reviewTable = options.schema ? `"${options.schema}"."Reviews"` : '"Reviews"';
@@ -12,27 +13,28 @@ const reviewImagesTable = options.schema ? `"${options.schema}"."ReviewImages"` 
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    // Get user IDs
     const demoUser = await queryInterface.sequelize.query(
       `SELECT id FROM ${userTable} WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
-    
+
     const fakeUser1 = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'FakeUser1' LIMIT 1;`,
+      `SELECT id FROM ${userTable} WHERE username = 'FakeUser1' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
-    
+
     const fakeUser2 = await queryInterface.sequelize.query(
-      `SELECT id FROM Users WHERE username = 'FakeUser2' LIMIT 1;`,
+      `SELECT id FROM ${userTable} WHERE username = 'FakeUser2' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
 
     // Get spot IDs
     const spots = await queryInterface.sequelize.query(
-      `SELECT id FROM Spots ORDER BY id LIMIT 3;`,
+      `SELECT id FROM ${spotTable} ORDER BY id LIMIT 3;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
-    
+
     // Check if required data exists
     if (spots.length < 3 || !demoUser.length || !fakeUser1.length || !fakeUser2.length) {
       console.error("Error: Missing required spots or users in database");
@@ -42,7 +44,7 @@ module.exports = {
     const demoUserId = demoUser[0].id;
     const user1Id = fakeUser1[0].id;
     const user2Id = fakeUser2[0].id;
-    
+
     // Insert sample reviews
     options.tableName = 'Reviews';
     await queryInterface.bulkInsert(options, [
@@ -90,7 +92,7 @@ module.exports = {
 
     // Get inserted reviews
     const insertedReviews = await queryInterface.sequelize.query(
-      `SELECT id FROM "Reviews" ORDER BY id DESC LIMIT 5;`,
+      `SELECT id FROM ${reviewTable} ORDER BY id DESC LIMIT 5;`,
       { type: Sequelize.QueryTypes.SELECT }
     );
 
