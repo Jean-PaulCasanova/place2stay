@@ -4,9 +4,6 @@ const router = express.Router();
 // Import the API router
 const apiRouter = require('./api');
 
-// import spots router
-const spotsRouter = require('./api/spots')
-
 // CSRF Token Route
 router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();

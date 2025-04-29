@@ -2,9 +2,9 @@ const express = require('express');
 const { Booking, Spot, SpotImage, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const { handleValidationErrors } = require('../../utils/validation');
-
+const { validateReview } = require('../../utils/validation');
 const router = express.Router();
 
 // Validate spot creation/update
@@ -429,6 +429,67 @@ router.delete('/images/:imageId', requireAuth, async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
+});
+
+//GET /api/spots/:spotId/reveiews - Get reviews for a Spot
+router.get('/:spotId/reviews', async (req, res) => {
+  const { spotId } = req.params;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  const reviews = await Review.findAll({
+    where: { spotId },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url']
+      }
+    ],
+    order: [['createdAt', 'DESC']]
+  });
+
+  return res.json({ Reviews: reviews });
+});
+
+//POST /api/spots/:spotId/reviews — Add a Review for a Spot
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
+  const { spotId } = req.params;
+  const { review, stars } = req.body;
+  const userId = req.user.id;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  const existingReview = await Review.findOne({
+    where: {
+      spotId,
+      userId
+    }
+  });
+
+  if (existingReview) {
+    return res.status(500).json({
+      message: "User already has a review for this spot"
+    });
+  }
+
+  const newReview = await Review.create({
+    spotId,
+    userId,
+    review,
+    stars
+  });
+
+  return res.status(201).json(newReview);
 });
 
   // Export router

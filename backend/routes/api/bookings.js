@@ -212,5 +212,39 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res) 
   
   
 // ------------------------------------------
-// DELETE /api/bookings/:
-//database reset
+// DELETE /api/bookings/:bookingId - Delete a booking
+// ------------------------------------------
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+  const { bookingId } = req.params;
+  const userId = req.user.id;
+
+  const booking = await Booking.findByPk(bookingId, {
+    include: {
+      model: Spot,
+      attributes: ['ownerId']
+    }
+  });
+
+  if (!booking) {
+    return res.status(404).json({ message: "Booking couldn't be found" });
+  }
+
+  const isOwner = booking.Spot.ownerId === userId;
+  const isBooker = booking.userId === userId;
+
+  if (!isOwner && !isBooker) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+
+  const startDate = new Date(booking.startDate);
+  const now = new Date();
+
+  if (startDate <= now) {
+    return res.status(403).json({
+      message: "Bookings that have started can't be deleted"
+    });
+  }
+
+  await booking.destroy();
+  res.json({ message: 'Successfully deleted' });
+});
