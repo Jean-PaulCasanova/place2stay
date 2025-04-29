@@ -4,7 +4,7 @@ const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { Op, Sequelize } = require('sequelize');
 const { handleValidationErrors } = require('../../utils/validation');
-
+const { validateReview } = require('../../utils/validation');
 const router = express.Router();
 
 // Validate spot creation/update
