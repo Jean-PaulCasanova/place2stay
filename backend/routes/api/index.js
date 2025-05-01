@@ -3,6 +3,7 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js')
+const spotImagesRouter = require('./spot-images');
 
 const reviewsRouter = require('./reviews.js');
 
@@ -21,6 +22,8 @@ router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 
 router.use('/spots', spotsRouter);
+
+router.use('/spot-images', spotImagesRouter); // now routes start at /api/spot-images
 
 router.use('/reviews', reviewsRouter);
 
