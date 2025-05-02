@@ -4,9 +4,8 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js')
 const spotImagesRouter = require('./spot-images');
-
 const reviewsRouter = require('./reviews.js');
-
+const reviewImagesRouter = require('./review-images');
 const bookingsRouter = require('./bookings.js');
 const { restoreUser } = require("../../utils/auth.js");
 
@@ -26,6 +25,8 @@ router.use('/spots', spotsRouter);
 router.use('/spot-images', spotImagesRouter); // now routes start at /api/spot-images
 
 router.use('/reviews', reviewsRouter);
+
+router.use('/review-images', reviewImagesRouter);
 
 router.use('/bookings', bookingsRouter);
 
