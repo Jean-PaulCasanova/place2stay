@@ -6,6 +6,7 @@ const { Op, Sequelize } = require('sequelize');
 const { handleValidationErrors } = require('../../utils/validation');
 const { validateReview } = require('../../utils/validation');
 const router = express.Router();
+const { Review, ReviewImage } = require('../../db/models');
 
 // Validate spot creation/update
 const validateSpot = [
@@ -431,7 +432,7 @@ router.delete('/images/:imageId', requireAuth, async (req, res) => {
   }
 });
 
-//GET /api/spots/:spotId/reveiews - Get reviews for a Spot
+//GET /api/spots/:spotId/reviews - Get reviews for a Spot
 router.get('/:spotId/reviews', async (req, res) => {
   const { spotId } = req.params;
 
