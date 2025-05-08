@@ -32,4 +32,4 @@ export function restoreCSRF() {
     if (process.env.NODE_ENV !== 'production') {
     return csrfFetch('/api/csrf/restore');
   }
-};
+}
