@@ -25,3 +25,11 @@ export async function csrfFetch(url, options = {}) {
   // next promise chain
   return res;
 }
+
+
+    // call this to get the "XSRF-TOKEN" cookie, should only be used in development
+export function restoreCSRF() {
+    if (process.env.NODE_ENV !== 'production') {
+    return csrfFetch('/api/csrf/restore');
+  }
+};
