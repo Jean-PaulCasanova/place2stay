@@ -3,6 +3,7 @@ import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import './LoginForm.css';
+
 function LoginFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -18,36 +19,43 @@ function LoginFormPage() {
     return dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
-        if (data?.errors) setErrors(data.errors);
+
+        if (data?.errors) {
+          setErrors(data.errors);
+      } else if (data?.message) {
+        setErrors({general: data.message });
       }
+     }
     );
   };
 
   return (
     <>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
-      </form>
+      <form className="login-form" onSubmit={handleSubmit}>
+  <label htmlFor="credential">Username or Email</label>
+  <input
+    id="credential"
+    type="text"
+    value={credential}
+    onChange={(e) => setCredential(e.target.value)}
+    required
+  />
+
+  <label htmlFor="password">Password</label>
+  <input
+    id="password"
+    type="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+  />
+
+  {errors.credential && <p className="error">{errors.credential}</p>}
+  {errors.general && <p className="error">{errors.general}</p>}
+
+  <button className="login-button" type="submit">Log In</button>
+</form>
     </>
   );
 }
