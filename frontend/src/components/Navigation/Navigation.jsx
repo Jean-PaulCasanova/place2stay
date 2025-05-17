@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
+import './Navigation.css'
 import * as sessionActions from '../../store/session';
 
 function Navigation({ isLoaded }) {
