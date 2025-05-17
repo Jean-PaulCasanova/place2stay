@@ -6,12 +6,7 @@ import * as sessionActions from '../../store/session';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
-  const dispatch = useDispatch();
-
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-  };
+  
 
   const sessionLinks = sessionUser ? (
     <>
