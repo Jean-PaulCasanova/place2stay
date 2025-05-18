@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
+import { Modal } from './context/Modal';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -19,6 +20,7 @@ function Layout() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
+      <Modal /> {/* <-- This is critical for modals to actually render */}
     </>
   );
 }
