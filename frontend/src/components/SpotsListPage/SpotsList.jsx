@@ -1,15 +1,13 @@
+// src/components/SpotsListPage/SpotsList.jsx
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllSpots } from '../../store/spots';
 import { Link } from 'react-router-dom';
-import './SpotsList.css';
 
 export default function SpotsListPage() {
   const dispatch = useDispatch();
-  const spotsState = useSelector(state => state.spots);
-console.log('Spots state:', spotsState);
-
-const spots = Object.values(spotsState?.Spots || {});
+  const spotsObj = useSelector(state => state.spots);
+  const spots = Object.values(spotsObj || {}); // <-- safeguard
 
   useEffect(() => {
     dispatch(fetchAllSpots());
@@ -18,21 +16,17 @@ const spots = Object.values(spotsState?.Spots || {});
   if (!spots.length) return <p>Loading spots...</p>;
 
   return (
-    <div className="spots-list-container">
-      {spots.map((spot) => (
-        <div key={spot.id} className="spot-card">
-          <Link to={`/spots/${spot.id}`}>
-            <img src={spot.previewImage} alt={spot.name} className="spot-image" />
-            <div className="spot-info">
-              <div className="spot-location">
-                {spot.city}, {spot.state}
-              </div>
-              <div className="spot-rating">★ {spot.avgRating?.toFixed(1) || 'New'}</div>
-              <div className="spot-name">{spot.name}</div>
-              <div className="spot-price">${spot.price} / night</div>
-            </div>
-          </Link>
-        </div>
+    <div className="spots-container">
+      {spots.map(spot => (
+        <Link key={spot.id} to={`/spots/${spot.id}`}>
+          <div className="spot-card">
+            <img src={spot.previewImage} alt={spot.name} />
+            <h2>{spot.name}</h2>
+            <p>{spot.city}, {spot.state}</p>
+            <p>${spot.price} / night</p>
+            <p>⭐ {spot.avgRating}</p>
+          </div>
+        </Link>
       ))}
     </div>
   );
