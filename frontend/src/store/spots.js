@@ -17,6 +17,7 @@ const deleteSpot = (spotId) => ({ type: DELETE_SPOT, spotId });
 export const fetchAllSpots = () => async (dispatch) => {
   const res = await csrfFetch('/api/spots');
   const data = await res.json();
+  console.log('Fetched spots:', data); // debug line for testing 
   dispatch(loadSpots(data.Spots));
 };
 

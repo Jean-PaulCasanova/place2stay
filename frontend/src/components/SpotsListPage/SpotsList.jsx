@@ -6,7 +6,10 @@ import './SpotsList.css';
 
 export default function SpotsListPage() {
   const dispatch = useDispatch();
-  const spots = useSelector(state => Object.values(state.spots));
+  const spotsState = useSelector(state => state.spots);
+console.log('Spots state:', spotsState);
+
+const spots = Object.values(spotsState?.Spots || {});
 
   useEffect(() => {
     dispatch(fetchAllSpots());
