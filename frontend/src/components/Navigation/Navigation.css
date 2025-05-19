@@ -3,7 +3,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 1rem;
-    background-color: #1e1e2f;
+    background-color: #8585e6;
     padding: 1rem 2rem;
     margin: 0;
   }
@@ -34,4 +34,28 @@ ul {
   
   button:hover {
     background-color: #2563eb; /* blue-600 */
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: rgb(228, 88, 88);
+    list-style: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 100;
+  }
+  
+  .profile-dropdown.hidden {
+    display: none;
+  }
+  
+  .profile-dropdown li {
+    margin: 5px 0;
+  }
+  
+  button > svg {
+    font-size: 1.5rem;
   }
