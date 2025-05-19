@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllSpots } from '../../store/spots';
 import { Link } from 'react-router-dom';
+import './SpotsList.css';
 
 export default function SpotsListPage() {
   const dispatch = useDispatch();
@@ -11,18 +12,24 @@ export default function SpotsListPage() {
     dispatch(fetchAllSpots());
   }, [dispatch]);
 
+  if (!spots.length) return <p>Loading spots...</p>;
+
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {spots.map(spot => (
-        <Link key={spot.id} to={`/spots/${spot.id}`}>
-          <div className="border rounded-lg p-4 shadow">
-            <img src={spot.previewImage} alt={spot.name} />
-            <h2 className="text-lg font-semibold">{spot.name}</h2>
-            <p>{spot.city}, {spot.state}</p>
-            <p>${spot.price} / night</p>
-            <p>⭐ {spot.avgRating}</p>
-          </div>
-        </Link>
+    <div className="spots-list-container">
+      {spots.map((spot) => (
+        <div key={spot.id} className="spot-card">
+          <Link to={`/spots/${spot.id}`}>
+            <img src={spot.previewImage} alt={spot.name} className="spot-image" />
+            <div className="spot-info">
+              <div className="spot-location">
+                {spot.city}, {spot.state}
+              </div>
+              <div className="spot-rating">★ {spot.avgRating?.toFixed(1) || 'New'}</div>
+              <div className="spot-name">{spot.name}</div>
+              <div className="spot-price">${spot.price} / night</div>
+            </div>
+          </Link>
+        </div>
       ))}
     </div>
   );
