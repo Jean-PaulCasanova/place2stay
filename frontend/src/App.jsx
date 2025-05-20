@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
 import SpotsListPage from './components/SpotsListPage';
+import SpotDetailPage from './components/SpotDetailPage'
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -31,11 +32,15 @@ const router = createBrowserRouter([
     children: [
       {
     path: '/',
-    element: <SpotsListPage />
+    element: <SpotsListPage /> /*we need to switch this back to just the home landing page*/
   },
   {
     path: '/spots',
     element: <SpotsListPage />
+  },
+  {
+    path: '/spots/:spotId',
+    element: <SpotDetailPage />
   }
  ]
   }
