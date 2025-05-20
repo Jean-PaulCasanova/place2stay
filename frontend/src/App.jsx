@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
+import LandingPage from './LandingPage';
 import SpotsListPage from './components/SpotsListPage';
-import SpotDetailPage from './components/SpotDetailPage'
+import SpotDetailPage from './components/SpotDetailPage';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
     children: [
       {
     path: '/',
-    element: <SpotsListPage /> /*we need to switch this back to just the home landing page*/
+    element: <LandingPage />
   },
   {
     path: '/spots',
