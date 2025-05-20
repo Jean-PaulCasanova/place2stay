@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
-import LandingPage from './LandingPage';
+import LandingPage from './components/LandingPage';
 import SpotsListPage from './components/SpotsListPage';
 import SpotDetailPage from './components/SpotDetailPage';
 import * as sessionActions from './store/session';
