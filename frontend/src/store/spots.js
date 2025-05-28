@@ -10,7 +10,7 @@ const DELETE_SPOT = 'spots/deleteSpot';
 // Action Creators
 const loadSpots = (spots) => ({ type: LOAD_SPOTS, spots });
 const loadSpot = (spot) => ({ type: LOAD_SPOT, spot });
-const createSpot = (spot) => ({ type: CREATE_SPOT, spot });
+const addSpot = (spot) => ({ type: CREATE_SPOT, spot });
 const deleteSpot = (spotId) => ({ type: DELETE_SPOT, spotId });
 
 // Thunks
@@ -27,13 +27,13 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
   dispatch(loadSpot(data));
 };
 
-export const createNewSpot = (spotData) => async (dispatch) => {
+export const createSpot = (spotData) => async (dispatch) => {
   const res = await csrfFetch('/api/spots', {
     method: 'POST',
     body: JSON.stringify(spotData)
   });
   const data = await res.json();
-  dispatch(createSpot(data));
+  dispatch(addSpot(data));
   return data;
 };
 
