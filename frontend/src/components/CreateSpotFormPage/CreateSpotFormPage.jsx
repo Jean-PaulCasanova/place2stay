@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createSpot } from '../../store/spots';
 import { useNavigate } from 'react-router-dom';
+import { csrfFetch } from '../../store/csrf'; // ✅ Needed to post the image
 import './CreateSpotForm.css';
 
 export default function CreateSpotFormPage() {
@@ -17,8 +18,8 @@ export default function CreateSpotFormPage() {
   const [lng, setLng] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [previewImage, setPreviewImage] = useState('');
-
+  const [imageUrls, setImageUrls] = useState(['']); // Start with one input
+  const [previewIndex, setPreviewIndex] = useState(0); // First image is preview by default
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,17 +32,31 @@ export default function CreateSpotFormPage() {
       lat: parseFloat(lat),
       lng: parseFloat(lng),
       description,
-      price: parseFloat(price),
-      previewImage
+      price: parseFloat(price)
     };
 
-    console.log('Submitting spot:', newSpot);
-
     try {
+      // Step 1: Create the spot
       const createdSpot = await dispatch(createSpot(newSpot));
+
+// Upload images if the spot was created successfully
+if (createdSpot && imageUrls.length > 0) {
+  await Promise.all(imageUrls.map((url, index) =>
+    csrfFetch(`/api/spots/${createdSpot.id}/images`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url,
+        preview: index === previewIndex
+      })
+    })
+  ));
+}
+
+      // Step 3: Redirect to new spot page
       navigate(`/spots/${createdSpot.id}`);
     } catch (err) {
-      console.error('Error creating spot:', err);
+      console.error('Error creating spot or image:', err);
     }
   };
 
@@ -86,9 +101,51 @@ export default function CreateSpotFormPage() {
           <input type="number" value={price} onChange={e => setPrice(e.target.value)} min="0" required />
         </label>
         <label>
-          Preview Image URL
-          <input type="url" value={previewImage} onChange={e => setPreviewImage(e.target.value)} />
-        </label>
+  Image URLs (add at least one)
+  {imageUrls.map((url, idx) => (
+    <div key={idx}>
+      <input
+        type="url"
+        value={url}
+        onChange={(e) => {
+          const newUrls = [...imageUrls];
+          newUrls[idx] = e.target.value;
+          setImageUrls(newUrls);
+        }}
+        required={idx === 0} // Require the first one
+        placeholder={`Image URL #${idx + 1}`}
+      />
+      <label>
+        <input
+          type="radio"
+          name="preview"
+          checked={previewIndex === idx}
+          onChange={() => setPreviewIndex(idx)}
+        />
+        Preview Image
+      </label>
+      {imageUrls.length > 1 && (
+        <button
+          type="button"
+          onClick={() => {
+            const newUrls = imageUrls.filter((_, i) => i !== idx);
+            setImageUrls(newUrls);
+            if (previewIndex === idx) setPreviewIndex(0); // Reset preview index if removed
+            else if (previewIndex > idx) setPreviewIndex(previewIndex - 1);
+          }}
+        >
+          Remove
+        </button>
+      )}
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={() => setImageUrls([...imageUrls, ''])}
+  >
+    Add Another Image
+  </button>
+</label>
         <button type="submit">Create Spot</button>
       </form>
     </div>
