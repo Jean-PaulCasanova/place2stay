@@ -5,7 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { createReview } from '../../store/reviews';
 import './ReviewForm.css';
 
-export default const ReviewFormPage = () => {
+export default function ReviewFormPage() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const history = useHistory();
