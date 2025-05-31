@@ -42,6 +42,20 @@ export const deleteSpotById = (spotId) => async (dispatch) => {
   dispatch(deleteSpot(spotId));
 };
 
+export const uploadSpotImage = (spotId, imageData) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: 'POST',
+    body: JSON.stringify(imageData)
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to upload image');
+  }
+
+  const data = await res.json();
+  return data;
+};
+
 // Reducer
 const initialState = {};
 
