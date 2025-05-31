@@ -1,14 +1,14 @@
 // src/components/ReviewFormPage/ReviewFormPage.jsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { createReview } from '../../store/reviews';
 import './ReviewForm.css';
 
 export default function ReviewFormPage() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate(); // correct hook for navigation
 
   const [review, setReview] = useState('');
   const [stars, setStars] = useState(0);
@@ -22,8 +22,8 @@ export default function ReviewFormPage() {
 
     try {
       await dispatch(createReview(spotId, reviewData));
-      // Optionally redirect or show success message
-      history.push(`/spots/${spotId}`);
+      // ✅ Correct navigation
+      navigate(`/spots/${spotId}`);
     } catch (err) {
       const data = await err.json();
       if (data && data.errors) setErrors(data.errors);
@@ -59,5 +59,5 @@ export default function ReviewFormPage() {
       </form>
     </div>
   );
-};
+}
 
