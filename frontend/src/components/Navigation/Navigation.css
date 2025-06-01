@@ -1,61 +1,84 @@
-ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background-color: #8585e6;
-    padding: 1rem 2rem;
-    margin: 0;
-  }
-  
-  li {
-    display: inline;
-  }
-  
-  a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  a:hover {
-    color: #fbbf24; /* amber-400 */
-  }
-  
-  button {
-    background-color: #3b82f6; /* blue-500 */
-    border: none;
-    color: white;
-    padding: 0.5rem 1rem;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #2563eb; /* blue-600 */
-  }
+/* Overall navigation layout */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #8585e6;
+  padding: 1rem 2rem;
+  margin: 0;
+  border-bottom: 1px solid #ddd;
+}
 
-  .profile-dropdown {
-    position: absolute;
-    right: 10px;
-    top: 50px;
-    background-color: rgb(228, 88, 88);
-    list-style: none;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    z-index: 100;
-  }
-  
-  .profile-dropdown.hidden {
-    display: none;
-  }
-  
-  .profile-dropdown li {
-    margin: 5px 0;
-  }
-  
-  button > svg {
-    font-size: 1.5rem;
-  }
+/* Logo styling */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #fbbf24; /* amber-400 */
+}
+
+/* Align nav items to the right */
+.nav-right ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-right li {
+  display: inline;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #fbbf24;
+}
+
+button {
+  background-color: #3b82f6;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 10px;
+  top: 50px;
+  background-color: rgb(228, 88, 88);
+  list-style: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}
+
+.profile-dropdown li {
+  margin: 5px 0;
+}
+
+button > svg {
+  font-size: 1.5rem;
+}
