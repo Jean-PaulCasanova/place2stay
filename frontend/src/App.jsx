@@ -50,7 +50,7 @@ const router = createBrowserRouter([
     element: <CreateSpotFormPage />
   },
   {
-    path: '/spots/:spotID/reviews/new',
+    path: '/spots/:spotId/reviews/new',
     element: <ReviewFormPage />
   }
  ]
