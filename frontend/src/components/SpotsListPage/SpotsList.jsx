@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllSpots } from '../../store/spots';
 import { Link } from 'react-router-dom';
+import '../LandingPage/Landing.css';
+
 
 export default function SpotsListPage() {
   const dispatch = useDispatch();
@@ -18,13 +20,15 @@ export default function SpotsListPage() {
   return (
     <div className="spots-container">
       {spots.map(spot => (
-        <Link key={spot.id} to={`/spots/${spot.id}`}>
+        <Link key={spot.id} to={`/spots/${spot.id}`} title={spot.name}>
           <div className="spot-card">
             <img src={spot.previewImage} alt={spot.name} />
-            <h2>{spot.name}</h2>
-            <p>{spot.city}, {spot.state}</p>
-            <p>${spot.price} / night</p>
-            <p>⭐ {spot.avgRating}</p>
+            <h2>{spot.city}, {spot.state}</h2>
+            <p>{spot.name}</p>
+            <div className="rating-price">
+            <span>⭐ {typeof spot.avgRating === 'number' ? spot.avgRating.toFixed(1) : 'New'}</span>
+              <span>${spot.price} night</span>
+            </div>
           </div>
         </Link>
       ))}
