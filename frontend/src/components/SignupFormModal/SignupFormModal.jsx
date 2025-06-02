@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import './SignupForm.css';
@@ -14,6 +14,25 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+
+  const isFormValid =
+    email &&
+    username.length >= 4 &&
+    firstName &&
+    lastName &&
+    password.length >= 6 &&
+    confirmPassword &&
+    password === confirmPassword;
+
+  useEffect(() => {
+    setEmail("");
+    setUsername("");
+    setFirstName("");
+    setLastName("");
+    setPassword("");
+    setConfirmPassword("");
+    setErrors({});
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,8 +52,8 @@ function SignupFormModal() {
           const data = await res.json();
           if (data?.errors) {
             setErrors(data.errors);
-           }
-         });
+          }
+        });
     }
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
@@ -52,9 +71,11 @@ function SignupFormModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={errors.email ? 'error-input' : ''}
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-message">{errors.email}</p>}
+
         <label>
           Username
           <input
@@ -62,9 +83,11 @@ function SignupFormModal() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className={errors.username ? 'error-input' : ''}
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="error-message">{errors.username}</p>}
+
         <label>
           First Name
           <input
@@ -72,9 +95,11 @@ function SignupFormModal() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            className={errors.firstName ? 'error-input' : ''}
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.firstName && <p className="error-message">{errors.firstName}</p>}
+
         <label>
           Last Name
           <input
@@ -82,9 +107,11 @@ function SignupFormModal() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            className={errors.lastName ? 'error-input' : ''}
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.lastName && <p className="error-message">{errors.lastName}</p>}
+
         <label>
           Password
           <input
@@ -92,9 +119,11 @@ function SignupFormModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={errors.password ? 'error-input' : ''}
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="error-message">{errors.password}</p>}
+
         <label>
           Confirm Password
           <input
@@ -102,10 +131,12 @@ function SignupFormModal() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            className={errors.confirmPassword ? 'error-input' : ''}
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+
+        <button type="submit" disabled={!isFormValid}>Sign Up</button>
       </form>
     </>
   );

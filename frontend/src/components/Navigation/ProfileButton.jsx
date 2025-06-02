@@ -9,7 +9,7 @@ import SignupFormModal from '../SignupFormModal/SignupFormModal';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // ← Add this
+  const navigate = useNavigate(); 
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -37,7 +37,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
-    navigate('/'); // ← Redirect to home after logout
+    navigate('/'); 
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
