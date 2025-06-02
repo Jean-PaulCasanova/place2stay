@@ -90,7 +90,7 @@ router.get('/', validateQueryFilters, async (req, res) => {
           price: spotData.price,
           createdAt: spotData.createdAt,
           updatedAt: spotData.updatedAt,
-          avgRating: parseFloat(spotData.avgRating).toFixed(2), // optional: round to 2 decimals
+          avgRating: spotData.avgRating ? Number(parseFloat(spotData.avgRating).toFixed(2)) : null,
           previewImage
         };
       });
