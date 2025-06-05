@@ -1,4 +1,3 @@
-// src/components/ReviewFormPage/ReviewFormPage.jsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -8,7 +7,7 @@ import './ReviewForm.css';
 export default function ReviewFormPage() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
-  const navigate = useNavigate(); // correct hook for navigation
+  const navigate = useNavigate(); 
 
   const [review, setReview] = useState('');
   const [stars, setStars] = useState(0);
@@ -22,7 +21,6 @@ export default function ReviewFormPage() {
 
     try {
       await dispatch(createReview(spotId, reviewData));
-      // ✅ Correct navigation
       navigate(`/spots/${spotId}`);
     } catch (err) {
       const data = await err.json();

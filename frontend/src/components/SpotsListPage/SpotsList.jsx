@@ -1,5 +1,3 @@
-// src/components/SpotsListPage/SpotsList.jsx
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllSpots } from '../../store/spots';
