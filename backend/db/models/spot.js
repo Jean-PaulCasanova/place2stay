@@ -29,11 +29,11 @@ module.exports = (sequelize) => {
   Spot.init({
     ownerId: {
       type: DataTypes.INTEGER,
-      allowNull: false, // Non-nullable
+      allowNull: false, 
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false, // Non-nullable
+      allowNull: false, 
       validate: {
         notEmpty: {
           msg: 'Address cannot be empty'
@@ -42,7 +42,7 @@ module.exports = (sequelize) => {
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false, // Non-nullable
+      allowNull: false, 
       validate: {
         notEmpty: {
           msg: 'City cannot be empty'
@@ -51,7 +51,7 @@ module.exports = (sequelize) => {
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false, // Non-nullable
+      allowNull: false, 
       validate: {
         notEmpty: {
           msg: 'State cannot be empty'
@@ -60,7 +60,7 @@ module.exports = (sequelize) => {
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false, // Non-nullable
+      allowNull: false, 
       validate: {
         notEmpty: {
           msg: 'Country cannot be empty'
@@ -103,7 +103,7 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING(50),
-      allowNull: false, // Non-nullable
+      allowNull: false, 
       validate: {
         len: {
           args: [1, 50],
@@ -113,7 +113,7 @@ module.exports = (sequelize) => {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false, // Non-nullable
+      allowNull: false, 
       validate: {
         notEmpty: {
           msg: 'Description cannot be empty'
