@@ -30,7 +30,7 @@ export default function SpotsListPage() {
               <div className="name-rating">
                 <p className="spot-name">{spot.name}</p>
                 <p className="spot-rating">
-                  ⭐ {typeof spot.avgRating === 'number' ? spot.avgRating.toFixed(1) : 'New'}
+                  ⭐ {spot.avgRating !== null && !isNaN(spot.avgRating) ? Number(spot.avgRating).toFixed(1) : 'New'}
                 </p>
               </div>
             </div>

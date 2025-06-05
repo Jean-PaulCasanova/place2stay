@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createSpot } from '../../store/spots';
 import { useNavigate } from 'react-router-dom';
-import { csrfFetch } from '../../store/csrf'; // ✅ Needed to post the image
+import { csrfFetch } from '../../store/csrf';
 import './CreateSpotForm.css';
 
 export default function CreateSpotFormPage() {
@@ -18,7 +18,7 @@ export default function CreateSpotFormPage() {
   const [lng, setLng] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [imageUrls, setImageUrls] = useState(['']); // Start with one input
+  const [imageUrls, setImageUrls] = useState(['']);
   const [previewIndex, setPreviewIndex] = useState(0); // First image is preview by default
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,3 +1,4 @@
+// src/components/SpotDetailPage/SpotDetailPage.jsx
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,7 +27,9 @@ export default function SpotDetailsPage() {
   if (!spot) return <h2>Loading spot details...</h2>;
 
   const reviewCount = reviews.length;
-  const rating = typeof spot.avgStarRating === 'number' ? spot.avgStarRating.toFixed(1) : 'New';
+  const rating = spot.avgStarRating !== null && !isNaN(spot.avgStarRating)
+    ? Number(spot.avgStarRating).toFixed(1)
+    : 'New';
 
   return (
     <div className="spot-detail-container">
