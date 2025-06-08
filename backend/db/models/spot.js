@@ -128,8 +128,8 @@ module.exports = (sequelize) => {
           msg: 'Price must be a decimal number'
         },
         min: {
-          args: 0,
-          msg: 'Price must be a positive value'
+          args: 0.01,
+          msg: 'Price must be greater than $0.01'
         }
       }
     }
