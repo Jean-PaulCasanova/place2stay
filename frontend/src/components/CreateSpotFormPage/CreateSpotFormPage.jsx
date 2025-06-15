@@ -64,9 +64,16 @@ if (createdSpot && imageUrls.length > 0) {
     <div className="create-spot-container">
       <h1>Create a New Spot</h1>
       <form className="create-spot-form" onSubmit={handleSubmit}>
+        <section>
+          <h2>Create a title for your spot</h2>
+          <p> Catch guests' attention with a spot title that highliights what makes your place special</p>
+        </section>
         <label>
           Spot Name
-          <input type="text" value={name} onChange={e => setName(e.target.value)} required />
+          <input type="text" value={name} onChange={e => setName(e.target.value)}
+          placeholder="Name of your spot"
+          required
+          />
         </label>
         <label>
           Address
@@ -80,6 +87,10 @@ if (createdSpot && imageUrls.length > 0) {
           State
           <input type="text" value={stateName} onChange={e => setStateName(e.target.value)} required />
         </label>
+        <section>
+          <h2>Where's your place located?</h2>
+          <p>Guests will only get your exact address once they booked a reservation.</p>
+        </section>
         <label>
           Country
           <input type="text" value={country} onChange={e => setCountry(e.target.value)} required />
@@ -94,16 +105,36 @@ if (createdSpot && imageUrls.length > 0) {
         </label>
         <label>
           Description
-          <textarea value={description} onChange={e => setDescription(e.target.value)} required />
+          <section>
+            <h2>Describe your place to guests</h2>
+            <p>Mention the best features of your space, any special amenities like fast wifi or parking,
+              and what you love about the neighborhood</p>
+            </section>
+          <textarea value={description} onChange={e => setDescription(e.target.value)}
+          placeholder="please write at least 30 characters"
+          required
+          />
         </label>
+        <section>
+          <h2>Set a base price for your spot</h2>
+          <p> Competitive pricing can help your listing stand out and rank higher in search results.</p>
+        </section>
         <label>
           Price per night
-          <input type="number" value={price} onChange={e => setPrice(e.target.value)} min="0" required />
+          <input type="number" value={price} onChange={e => setPrice(e.target.value)}
+          placeholder="Price per night (USD)"
+          min="0"
+          required
+          />
         </label>
         <label>
   Image URLs (add at least one)
   {imageUrls.map((url, idx) => (
     <div key={idx}>
+      <section>
+        <h2>Liven up your spot with photos</h2>
+        <p>Submit a link to at least one photo to publish your spot.</p>
+      </section>
       <input
         type="url"
         value={url}
@@ -113,7 +144,7 @@ if (createdSpot && imageUrls.length > 0) {
           setImageUrls(newUrls);
         }}
         required={idx === 0} // Require the first one
-        placeholder={`Image URL #${idx + 1}`}
+        placeholder={idx === 0 ? "Preview Image URL" : `Image URL #${idx + 1}`}
       />
       <label>
         <input

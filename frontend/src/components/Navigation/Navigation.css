@@ -105,3 +105,14 @@ button > svg {
   font-size: 1.8rem;
   color: white;
 }
+
+.create-spot-link {
+  margin-right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.create-spot-link:hover {
+  text-decoration: underline;
+}
