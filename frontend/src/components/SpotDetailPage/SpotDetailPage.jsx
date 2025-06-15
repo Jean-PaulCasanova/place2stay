@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
+import { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSpotDetails } from '../../store/spots';
 import { fetchReviewsBySpot } from '../../store/reviews';
+import ReviewFormModal from '../ReviewFormPage/ReviewFormModal'
 import './SpotDetail.css';
+
+
 
 export default function SpotDetailsPage() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-
+  const [showModal, setShowModal] = useState(false);
   const spot = useSelector(state => state.spots[spotId]);
   const sessionUser = useSelector(state => state.session.user);
 
@@ -29,6 +33,8 @@ export default function SpotDetailsPage() {
   const rating = spot.avgStarRating !== null && !isNaN(spot.avgStarRating)
     ? Number(spot.avgStarRating).toFixed(1)
     : 'New';
+
+    const hasUserReviewed = sessionUser && reviews.some(review => review.userId === sessionUser.id);
 
   return (
     <div className="spot-detail-container">
@@ -93,6 +99,14 @@ export default function SpotDetailsPage() {
         </h2>
       </div>
 
+      {sessionUser && !isOwner && !hasUserReviewed && (
+  <button onClick={() => setShowModal(true)} className="post-review-button">
+    Post Your Review
+  </button>
+)}
+{showModal && (
+  <ReviewFormModal spotId={spotId} onClose={() => setShowModal(false)} />
+)}
       {/* Review List */}
       <div className="reviews-section">
         {reviewCount === 0 ? (
