@@ -118,7 +118,7 @@ export default function SpotDetailsPage() {
         ) : (
           reviews.map((review) => (
             <div key={review.id} className="review-card">
-              <p><strong>{review.User.firstName}</strong></p>
+              <p><strong>{review.User?.firstName || 'Anonymous'}</strong></p>
               <p className="review-date">
                 {new Date(review.createdAt).toLocaleString('default', {
                   month: 'long',
