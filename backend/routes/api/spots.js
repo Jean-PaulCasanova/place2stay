@@ -497,7 +497,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     }
   });
 
-  return res.status(201).json(newReview);
+  return res.status(201).json(reviewWithUser);
 });
 
   // Export router
