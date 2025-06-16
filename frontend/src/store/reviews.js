@@ -18,7 +18,7 @@ const loadReviews = (reviews) => ({
     review
   });
   
-  const deleteReview = (reviewId) => ({
+  const deleteReviewAction = (reviewId) => ({
     type: DELETE_REVIEW,
     reviewId
   });
@@ -47,13 +47,13 @@ const loadReviews = (reviews) => ({
     }
   };
 
-  export const deleteReviewById = (reviewId) => async (dispatch) => {
+  export const deleteReview = (reviewId) => async (dispatch) => {
     const res = await csrfFetch(`/api/reviews/${reviewId}`, {
       method: 'DELETE'
     });
   
     if (res.ok) {
-      dispatch(deleteReview(reviewId));
+      dispatch(deleteReviewAction(reviewId));
     }
   };
 

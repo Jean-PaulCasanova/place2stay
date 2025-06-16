@@ -1,26 +1,28 @@
-import { useEffect } from 'react';
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSpotDetails } from '../../store/spots';
 import { fetchReviewsBySpot } from '../../store/reviews';
-import ReviewFormModal from '../ReviewFormPage/ReviewFormModal'
+import ReviewFormModal from '../ReviewFormPage/ReviewFormModal';
+import DeleteReviewModal from '../DeleteReviewModal/DeleteReviewModal';
 import './SpotDetail.css';
-
-
 
 export default function SpotDetailsPage() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+
   const spot = useSelector(state => state.spots[spotId]);
   const sessionUser = useSelector(state => state.session.user);
-
   const reviews = useSelector(state =>
     Object.values(state.reviews).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   );
 
   const isOwner = sessionUser && sessionUser.id === spot?.Owner?.id;
+  const hasUserReviewed = sessionUser && reviews.some(review => review.userId === sessionUser.id);
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
     dispatch(fetchSpotDetails(spotId));
@@ -34,7 +36,10 @@ export default function SpotDetailsPage() {
     ? Number(spot.avgStarRating).toFixed(1)
     : 'New';
 
-    const hasUserReviewed = sessionUser && reviews.some(review => review.userId === sessionUser.id);
+  const openDeleteModal = (reviewId) => {
+    setReviewToDelete(reviewId);
+    setShowDeleteModal(true);
+  };
 
   return (
     <div className="spot-detail-container">
@@ -99,14 +104,16 @@ export default function SpotDetailsPage() {
         </h2>
       </div>
 
+      {/* Review button for logged-in users who aren't the owner and haven't reviewed yet */}
       {sessionUser && !isOwner && !hasUserReviewed && (
-  <button onClick={() => setShowModal(true)} className="post-review-button">
-    Post Your Review
-  </button>
-)}
-{showModal && (
-  <ReviewFormModal spotId={spotId} onClose={() => setShowModal(false)} />
-)}
+        <button onClick={() => setShowReviewModal(true)} className="post-review-button">
+          Post Your Review
+        </button>
+      )}
+      {showReviewModal && (
+        <ReviewFormModal spotId={spotId} onClose={() => setShowReviewModal(false)} />
+      )}
+
       {/* Review List */}
       <div className="reviews-section">
         {reviewCount === 0 ? (
@@ -126,10 +133,31 @@ export default function SpotDetailsPage() {
                 })}
               </p>
               <p>{review.review}</p>
+
+              {/* Delete Button (only for current user's reviews) */}
+              {sessionUser && sessionUser.id === review.userId && (
+                <button
+                  className="delete-review-button"
+                  onClick={() => openDeleteModal(review.id)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))
         )}
       </div>
+
+      {/* Delete Review Modal */}
+      {showDeleteModal && reviewToDelete && (
+        <DeleteReviewModal
+          reviewId={reviewToDelete}
+          closeModal={() => {
+            setShowDeleteModal(false);
+            setReviewToDelete(null);
+          }}
+        />
+      )}
     </div>
   );
 }
