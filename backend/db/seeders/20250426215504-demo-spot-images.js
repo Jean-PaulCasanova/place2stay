@@ -32,7 +32,7 @@ module.exports = {
         spotId: spots[0].id,
         url: 'https://images.pexels.com/photos/14711537/pexels-photo-14711537.jpeg?auto=compress&cs=tinysrgb&w=1200',
         preview: false
-      }
+      },
 
       // Spot 2 – Sunny Retreat LA
       {
@@ -140,7 +140,7 @@ module.exports = {
         spotid: spots[7].id,
         url: 'https://images.pexels.com/photos/5461586/pexels-photo-5461586.jpeg?auto=compress&cs=tinysrgb&w=1600',
         preview: false
-      }
+      },
     ];
 
     // Attach timestamps
