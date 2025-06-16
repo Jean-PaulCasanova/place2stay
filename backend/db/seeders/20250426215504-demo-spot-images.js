@@ -20,7 +20,7 @@ module.exports = {
       // Spot 1 – App Academy SF
       {
         spotId: spots[0].id,
-        url: 'https://images.unsplash.com/photo-1560448070-cf7b7aeb3c91',
+        url: 'https://images.pexels.com/photos/1170686/pexels-photo-1170686.jpeg?auto=compress&cs=tinysrgb&w=1200',
         preview: true
       },
       {
@@ -39,7 +39,7 @@ module.exports = {
       // Spot 3 – Mountain View
       {
         spotId: spots[2].id,
-        url: 'https://images.unsplash.com/photo-1600585154154-2300ebdaf74e',
+        url: 'https://images.pexels.com/photos/4450429/pexels-photo-4450429.jpeg?auto=compress&cs=tinysrgb&w=1200',
         preview: true
       },
       {
@@ -65,7 +65,7 @@ module.exports = {
       // Spot 6 – Malibu Dream
       {
         spotId: spots[5].id,
-        url: 'https://images.unsplash.com/photo-1600585154080-8787ee70a27b',
+        url: 'https://images.pexels.com/photos/2587054/pexels-photo-2587054.jpeg?auto=compress&cs=tinysrgb&w=1200',
         preview: true
       },
 
@@ -79,7 +79,7 @@ module.exports = {
       // Spot 8 – Urban Zen Loft
       {
         spotId: spots[7].id,
-        url: 'https://images.unsplash.com/photo-1613977257363-e7dc9c4b3d10',
+        url: 'https://images.pexels.com/photos/1127119/pexels-photo-1127119.jpeg?auto=compress&cs=tinysrgb&w=1200',
         preview: true
       },
     ];
