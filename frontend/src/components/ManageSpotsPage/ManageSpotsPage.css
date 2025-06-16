@@ -6,16 +6,17 @@
   }
   
   .spot-card {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow: hidden;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: 0.3s;
+    background: var(--card-bg);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: transform 0.3s ease, background-color 0.3s ease;
   }
   
   .spot-card:hover {
     transform: scale(1.02);
+    background-color: var(--hover-bg);
   }
   
   .spot-thumbnail {
@@ -28,18 +29,22 @@
   .spot-header {
     padding: 10px;
     cursor: pointer;
+    color: var(--primary-color);
   }
   
   .name-rating {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--secondary-color);
+    font-weight: bold;
   }
   
   .spot-price {
     padding: 0 10px;
     font-weight: bold;
     margin-bottom: 8px;
+    color: var(--primary-color);
   }
   
   .manage-buttons {
@@ -48,8 +53,33 @@
     padding: 10px;
   }
   
+  .manage-buttons button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .manage-buttons button:hover {
+    background-color: var(--secondary-color);
+    color: black;
+  }
+  
   .create-spot-button {
     margin: 10px 0;
     padding: 8px 16px;
     font-size: 16px;
+    background-color: var(--secondary-color);
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .create-spot-button:hover {
+    background-color: var(--primary-color);
+    color: white;
   }
