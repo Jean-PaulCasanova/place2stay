@@ -5,12 +5,14 @@ import { csrfFetch } from './csrf';
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT = 'spots/loadSpot';
 const CREATE_SPOT = 'spots/createSpot';
+const UPDATE_SPOT = 'spots/updateSpot';
 const DELETE_SPOT = 'spots/deleteSpot';
 
 // Action Creators
 const loadSpots = (spots) => ({ type: LOAD_SPOTS, spots });
 const loadSpot = (spot) => ({ type: LOAD_SPOT, spot });
 const addSpot = (spot) => ({ type: CREATE_SPOT, spot });
+const updateSpotAction = (spot) => ({ type: UPDATE_SPOT, spot });
 const deleteSpot = (spotId) => ({ type: DELETE_SPOT, spotId });
 
 // Thunks
@@ -68,6 +70,23 @@ export const fetchCurrentUserSpots = () => async dispatch => {
   }
 };
 
+export const updateSpot = (spotData) => async (dispatch) => {
+  const { id, ...body } = spotData;
+
+  const res = await csrfFetch(`/api/spots/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update spot');
+  }
+
+  const data = await res.json();
+  dispatch(updateSpotAction(data));
+  return data;
+};
+
 // Reducer
 const initialState = {};
 
@@ -79,7 +98,8 @@ export default function spotsReducer(state = initialState, action) {
       return newState;
     }
     case LOAD_SPOT:
-    case CREATE_SPOT: {
+    case CREATE_SPOT:
+    case UPDATE_SPOT: {
       return { ...state, [action.spot.id]: action.spot };
     }
     case DELETE_SPOT: {
@@ -91,3 +111,5 @@ export default function spotsReducer(state = initialState, action) {
       return state;
   }
 }
+
+export const getSpotById = (spotId) => (state) => state.spots[spotId];
