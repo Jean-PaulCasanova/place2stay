@@ -6,6 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 options.tableName = 'SpotImages';
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     const spots = await queryInterface.sequelize.query(
@@ -13,93 +14,85 @@ module.exports = {
       { type: Sequelize.QueryTypes.SELECT }
     );
 
-    if (!spots.length || spots.length < 8) {
-      throw new Error('Expected at least 8 spots for seeding SpotImages.');
-    }
+    if (!spots.length) throw new Error('No spots found. Cannot seed SpotImages.');
 
-    const imageSets = [
-      // App Academy SF
-      [
-        'https://images.unsplash.com/photo-1509395176047-4a66953fd231',
-        'https://images.unsplash.com/photo-1570129477492-45c003edd2be',
-        'https://images.unsplash.com/photo-1501183638710-841dd1904471',
-        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-        'https://images.unsplash.com/photo-1574172580388-1ef4b17b4ae0'
-      ],
-      // Sunny Retreat LA
-      [
-        'https://images.unsplash.com/photo-1507089947368-19c1da9775ae',
-        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2',
-        'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
-        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
-        'https://images.unsplash.com/photo-1598928506311-2c602453e26c'
-      ],
-      // Mountain View
-      [
-        'https://images.unsplash.com/photo-1502673530728-f79b4cab31b1',
-        'https://images.unsplash.com/photo-1505691938895-1758d7feb511',
-        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
-        'https://images.unsplash.com/photo-1598928506311-2c602453e26c',
-        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914'
-      ],
-      // Cozy Cabin Vermont
-      [
-        'https://images.unsplash.com/photo-1556909218-31b42b6ab5d4',
-        'https://images.unsplash.com/photo-1600585154203-83b49bff9342',
-        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2',
-        'https://images.unsplash.com/photo-1574172580388-1ef4b17b4ae0',
-        'https://images.unsplash.com/photo-1598928506311-2c602453e26c'
-      ],
-      // Urban Oasis NYC
-      [
-        'https://images.unsplash.com/photo-1549921296-3c585f292b5e',
-        'https://images.unsplash.com/photo-1600585154203-83b49bff9342',
-        'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
-        'https://images.unsplash.com/photo-1574172580388-1ef4b17b4ae0',
-        'https://images.unsplash.com/photo-1502673530728-f79b4cab31b1'
-      ],
-      // Desert Escape AZ
-      [
-        'https://images.unsplash.com/photo-1600585154203-83b49bff9342',
-        'https://images.unsplash.com/photo-1570129477492-45c003edd2be',
-        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
-        'https://images.unsplash.com/photo-1509395176047-4a66953fd231',
-        'https://images.unsplash.com/photo-1549921296-3c585f292b5e'
-      ],
-      // Lakeside Retreat
-      [
-        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
-        'https://images.unsplash.com/photo-1507089947368-19c1da9775ae',
-        'https://images.unsplash.com/photo-1556909218-31b42b6ab5d4',
-        'https://images.unsplash.com/photo-1600585154203-83b49bff9342',
-        'https://images.unsplash.com/photo-1549921296-3c585f292b5e'
-      ],
-      // High-Rise Haven
-      [
-        'https://images.unsplash.com/photo-1501183638710-841dd1904471',
-        'https://images.unsplash.com/photo-1502673530728-f79b4cab31b1',
-        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2',
-        'https://images.unsplash.com/photo-1570129477492-45c003edd2be',
-        'https://images.unsplash.com/photo-1507089947368-19c1da9775ae'
-      ]
+    const images = [
+      // Spot 1 – App Academy SF
+      {
+        spotId: spots[0].id,
+        url: 'https://images.unsplash.com/photo-1560448070-cf7b7aeb3c91',
+        preview: true
+      },
+      {
+        spotId: spots[0].id,
+        url: 'https://images.unsplash.com/photo-1554995207-c18c203602cb',
+        preview: false
+      },
+
+      // Spot 2 – Sunny Retreat LA
+      {
+        spotId: spots[1].id,
+        url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        preview: true
+      },
+
+      // Spot 3 – Mountain View
+      {
+        spotId: spots[2].id,
+        url: 'https://images.unsplash.com/photo-1600585154154-2300ebdaf74e',
+        preview: true
+      },
+      {
+        spotId: spots[2].id,
+        url: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85',
+        preview: false
+      },
+
+      // Spot 4 – Coastal Cottage
+      {
+        spotId: spots[3].id,
+        url: 'https://images.unsplash.com/photo-1599423300746-b62533397364',
+        preview: true
+      },
+
+      // Spot 5 – Desert Escape
+      {
+        spotId: spots[4].id,
+        url: 'https://images.unsplash.com/photo-1599423300746-b62533397364',
+        preview: true
+      },
+
+      // Spot 6 – Malibu Dream
+      {
+        spotId: spots[5].id,
+        url: 'https://images.unsplash.com/photo-1600585154080-8787ee70a27b',
+        preview: true
+      },
+
+      // Spot 7 – Forest Haven
+      {
+        spotId: spots[6].id,
+        url: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae',
+        preview: true
+      },
+
+      // Spot 8 – Urban Zen Loft
+      {
+        spotId: spots[7].id,
+        url: 'https://images.unsplash.com/photo-1613977257363-e7dc9c4b3d10',
+        preview: true
+      },
     ];
 
-    const imageEntries = [];
+    // Attach timestamps
+    const now = new Date();
+    const imageRecords = images.map(img => ({
+      ...img,
+      createdAt: now,
+      updatedAt: now
+    }));
 
-    spots.forEach((spot, index) => {
-      const images = imageSets[index];
-      images.forEach((url, i) => {
-        imageEntries.push({
-          spotId: spot.id,
-          url,
-          preview: i === 0, // First image is preview
-          createdAt: new Date(),
-          updatedAt: new Date()
-        });
-      });
-    });
-
-    await queryInterface.bulkInsert(options, imageEntries, {});
+    await queryInterface.bulkInsert(options, imageRecords, {});
   },
 
   async down(queryInterface, Sequelize) {
