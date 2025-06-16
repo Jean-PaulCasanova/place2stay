@@ -53,32 +53,41 @@ export default function ManageSpotsPage() {
   return (
     <div className="manage-spots-container">
       <h1>Manage Spots</h1>
-      <div className="spot-tiles-grid">
+      <button onClick={() => navigate('/spots/new')} className="create-spot-button">
+        Create a New Spot
+      </button>
+
+      <div className="spots-container">
         {spots.map(spot => (
-          <div
-            key={spot.id}
-            className="spot-tile"
-            onClick={() => navigate(`/spots/${spot.id}`)}
-          >
-            <img src={spot.previewImage} alt={spot.name} />
-            <div className="spot-info">
-              <div>{spot.city}, {spot.state}</div>
-              <div>⭐ {spot.avgRating || 'New'}</div>
-              <div>${spot.price} night</div>
+          <div key={spot.id} className="spot-card">
+            <img
+              src={spot.previewImage || 'https://via.placeholder.com/300x200?text=No+Image'}
+              alt={spot.name}
+              className="spot-thumbnail"
+              onClick={() => navigate(`/spots/${spot.id}`)}
+            />
+
+            <div className="spot-header" onClick={() => navigate(`/spots/${spot.id}`)}>
+              <h2 className="spot-location">{spot.city}, {spot.state}</h2>
+              <div className="name-rating">
+                <p className="spot-name">{spot.name}</p>
+                <p className="spot-rating">
+                  ⭐ {spot.avgRating ? Number(spot.avgRating).toFixed(1) : 'New'}
+                </p>
+              </div>
             </div>
-            <div className="spot-buttons">
+
+            <p className="spot-price">${spot.price} night</p>
+
+            <div className="manage-buttons">
               <button onClick={(e) => {
                 e.stopPropagation();
                 handleUpdate(spot.id);
-              }}>
-                Update
-              </button>
+              }}>Update</button>
               <button onClick={(e) => {
                 e.stopPropagation();
                 openDeleteModal(spot.id);
-              }}>
-                Delete
-              </button>
+              }}>Delete</button>
             </div>
           </div>
         ))}
