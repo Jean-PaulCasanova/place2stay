@@ -83,7 +83,7 @@ export const updateSpot = (spotData) => async (dispatch) => {
   }
 
   const data = await res.json();
-  dispatch(updateSpotAction(data));
+  dispatch(addSpot(data));
   return data;
 };
 
