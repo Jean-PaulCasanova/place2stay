@@ -1,0 +1,118 @@
+/* Overall navigation layout */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #008080; /* Teal */
+  padding: 1rem 2rem;
+  margin: 0;
+  border-bottom: 2px solid #ff69b4; /* Hot Pink accent */
+}
+
+/* Logo styling */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #ffb6c1; /* Light Pink */
+}
+
+/* Align nav items to the right */
+.nav-right ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-right li {
+  display: inline;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #ffb6c1;
+}
+
+button {
+  background-color: #ff69b4; /* Hot Pink */
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff85c1;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 2rem;
+  top: 60px;
+  background-color: #ffffff;
+  list-style: none;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  min-width: 200px;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}
+
+.profile-dropdown li {
+  padding: 0.5rem 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.profile-dropdown li button {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+  color: #008080; /* Teal */
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.profile-dropdown li button:hover {
+  text-decoration: underline;
+  color: #ff69b4;
+}
+
+button > svg {
+  font-size: 1.8rem;
+  color: white;
+}
+
+.create-spot-link {
+  margin-right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.create-spot-link:hover {
+  text-decoration: underline;
+  color: #ff69b4;
+}

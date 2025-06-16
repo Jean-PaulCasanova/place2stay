@@ -2,14 +2,13 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA; // Set schema if in production
+  options.schema = process.env.SCHEMA;
 }
-options.tableName = 'Spots'; // Always define the table at the top
+options.tableName = 'Spots';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Find Demo-lition user (assuming they exist from demo-user seeder)
     const demoUser = await queryInterface.sequelize.query(
       `SELECT id FROM "${options.schema ? options.schema + '"."' : ''}Users" WHERE username = 'Demo-lition' LIMIT 1;`,
       { type: Sequelize.QueryTypes.SELECT }
@@ -20,7 +19,6 @@ module.exports = {
       throw new Error('Demo user not found, cannot seed Spots.');
     }
 
-    // Insert demo spots
     await queryInterface.bulkInsert(options, [
       {
         ownerId: demoUserId,
@@ -63,12 +61,82 @@ module.exports = {
         price: 200,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '19 Old Wharf Rd',
+        city: 'Cape Cod',
+        state: 'MA',
+        country: 'USA',
+        lat: 41.6688,
+        lng: -70.2962,
+        name: 'Coastal Cottage',
+        description: 'Charming beach house near the water',
+        price: 275,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '88 Desert Mirage Ln',
+        city: 'Phoenix',
+        state: 'AZ',
+        country: 'USA',
+        lat: 33.4484,
+        lng: -112.0740,
+        name: 'Desert Escape',
+        description: 'Modern home with desert tranquility.',
+        price: 150,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '21 Ocean View Dr',
+        city: 'Malibu',
+        state: 'CA',
+        country: 'USA',
+        lat: 34.0259,
+        lng: -118.7798,
+        name: 'Malibu Dream',
+        description: 'Beachfront luxury retreat.',
+        price: 450,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '42 Hilltop Way',
+        city: 'Portland',
+        state: 'OR',
+        country: 'USA',
+        lat: 45.5122,
+        lng: -122.6587,
+        name: 'Forest Haven',
+        description: 'Escape into a woodland paradise.',
+        price: 195,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        ownerId: demoUserId,
+        address: '10 Cherry Blossom Ln',
+        city: 'Seattle',
+        state: 'WA',
+        country: 'USA',
+        lat: 47.6062,
+        lng: -122.3321,
+        name: 'Urban Zen Loft',
+        description: 'Minimalist apartment in the heart of the city.',
+        price: 220,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]);
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Spots'; // now safe to delete Spots
+    options.tableName = 'Spots';
     await queryInterface.bulkDelete(options, null, {});
   }
 };

@@ -90,7 +90,7 @@ router.get('/', validateQueryFilters, async (req, res) => {
           price: spotData.price,
           createdAt: spotData.createdAt,
           updatedAt: spotData.updatedAt,
-          avgRating: parseFloat(spotData.avgRating).toFixed(2), // optional: round to 2 decimals
+          avgRating: spotData.avgRating ? Number(parseFloat(spotData.avgRating).toFixed(2)) : null,
           previewImage
         };
       });
@@ -490,7 +490,14 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     stars
   });
 
-  return res.status(201).json(newReview);
+  const reviewWithUser = await Review.findByPk(newReview.id, {
+    include: {
+      model: User,
+      attributes: ['id', 'firstName', 'lastName']
+    }
+  });
+
+  return res.status(201).json(reviewWithUser);
 });
 
   // Export router

@@ -1,0 +1,16 @@
+/* TODO: Add sitewide styles */
+:root {
+  --primary-color: #ff6ec7;   /* Hot pink */
+  --secondary-color: #00f7f7; /* Bright teal */
+  --background-color: #fdfdfd;
+  --text-color: #333;
+  --card-bg: #ffffff;
+  --hover-bg: #ffe6f0;
+  --border-color: #ccc;
+}
+
+body {
+  background: linear-gradient(135deg, #ffe2f1, #d1fcf5);
+  font-family: 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+}

@@ -1,0 +1,86 @@
+/* DeleteReviewModal.css */
+
+/* Reusable button base style */
+button {
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 12px;
+    transition: background-color 0.2s ease;
+  }
+  
+  /* Modal container */
+  .delete-review-modal {
+    padding: 24px;
+    background-color: white;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Modal text */
+  .delete-review-modal h2 {
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+  
+  .delete-review-modal p {
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: #444;
+  }
+  
+  /* Modal button layout */
+  .modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Confirm delete button */
+  .delete-button {
+    background-color: #ff5a5f;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #e0484d;
+  }
+  
+  /* Cancel button */
+  .cancel-button {
+    background-color: #444;
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: #333;
+  }
+  
+  /* Optional centering helper */
+  .modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Optional: delete button used on review card (outside modal) */
+  .delete-review-button {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .delete-review-button:hover {
+    background-color: #222;
+  }

@@ -1,0 +1,152 @@
+.spot-detail-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .spot-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .spot-location {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .spot-image-wrapper {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .spot-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .spot-info {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .spot-price {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .spot-description {
+    line-height: 1.6;
+  }
+
+  .review {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .spot-images-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .spot-main-image {
+    grid-column: 1 / 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .spot-thumbnails {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .spot-thumb {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .spot-layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .spot-main-content {
+    flex: 2;
+  }
+  
+  .spot-callout-box {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    align-self: start;
+  }
+  
+  .price-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .spot-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  .per-night {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #555;
+  }
+  
+  .spot-rating {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .reserve-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #ff5a5f;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .reserve-button:hover {
+    background-color: #e04e53;
+  }
+
+  .dot-separator {
+    margin: 0 6px;
+  }
+  
+  .reviews-summary {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  
