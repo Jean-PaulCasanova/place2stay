@@ -12,14 +12,12 @@ const DELETE_SPOT = 'spots/deleteSpot';
 const loadSpots = (spots) => ({ type: LOAD_SPOTS, spots });
 const loadSpot = (spot) => ({ type: LOAD_SPOT, spot });
 const addSpot = (spot) => ({ type: CREATE_SPOT, spot });
-const updateSpotAction = (spot) => ({ type: UPDATE_SPOT, spot });
 const deleteSpot = (spotId) => ({ type: DELETE_SPOT, spotId });
 
 // Thunks
 export const fetchAllSpots = () => async (dispatch) => {
   const res = await csrfFetch('/api/spots');
   const data = await res.json();
-  console.log('Fetched spots:', data); // debug line for testing 
   dispatch(loadSpots(data.Spots));
 };
 
@@ -44,7 +42,7 @@ export const deleteSpotById = (spotId) => async (dispatch) => {
   dispatch(deleteSpot(spotId));
 };
 
-export const uploadSpotImage = (spotId, imageData) => async (dispatch) => {
+export const uploadSpotImage = (spotId, imageData) => async () => {
   const res = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: 'POST',
     body: JSON.stringify(imageData)
@@ -58,15 +56,15 @@ export const uploadSpotImage = (spotId, imageData) => async (dispatch) => {
   return data;
 };
 
-export const fetchCurrentUserSpots = () => async dispatch => {
-  const res = await fetch('/api/spots/current');
+export const fetchCurrentUserSpots = () => async (dispatch) => {
+  const res = await csrfFetch('/api/spots/current');
 
   if (res.ok) {
     const data = await res.json();
-    dispatch(loadSpots(data.Spots)); 
+    dispatch(loadSpots(data.Spots)); // <- optional but useful
     return data.Spots;
   } else {
-    throw new Error('User has not created a spot yet')
+    throw new Error('User has not created a spot yet');
   }
 };
 

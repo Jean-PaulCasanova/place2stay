@@ -103,7 +103,7 @@ export default function CreateSpotFormPage() {
       <form className="create-spot-form" onSubmit={handleSubmit}>
         <section>
           <h2>Create a title for your spot</h2>
-          <p>Catch guests' attention with a spot title that highlights what makes your place special</p>
+          <p>Catch guests attention with a spot title that highlights what makes your place special</p>
         </section>
         <label>
           Spot Name
@@ -130,7 +130,7 @@ export default function CreateSpotFormPage() {
         {errors.state && <p className="error">{errors.state}</p>}
 
         <section>
-          <h2>Where's your place located?</h2>
+          <h2>Where&aposs your place located?</h2>
           <p>Guests will only get your exact address once they booked a reservation.</p>
         </section>
         <label>
