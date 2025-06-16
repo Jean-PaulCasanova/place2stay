@@ -56,6 +56,18 @@ export const uploadSpotImage = (spotId, imageData) => async (dispatch) => {
   return data;
 };
 
+export const fetchCurrentUserSpots = () => async dispatch => {
+  const res = await fetch('/api/spots/current');
+
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(loadSpots(data.Spots)); 
+    return data.Spots;
+  } else {
+    throw new Error('User has not created a spot yet')
+  }
+};
+
 // Reducer
 const initialState = {};
 
