@@ -137,7 +137,7 @@ module.exports = {
         preview: true
       },
       {
-        spotid: spots[7].id,
+        spotId: spots[7].id,
         url: 'https://images.pexels.com/photos/5461586/pexels-photo-5461586.jpeg?auto=compress&cs=tinysrgb&w=1600',
         preview: false
       },
